@@ -68,7 +68,18 @@ def add_premium_guns():
         gun_id = prem_dict[choice_index]['ID']
         gun_type = prem_dict[choice_index]['Type']
         gun_name = fixed_names[choice_index]
+with open(f'{base_path}\\config.json', 'r') as f:
+    inventory = load(f)
 
+profile = inventory.setdefault("profile", {})
+strongboxes = profile.setdefault("Strongboxes", {})
+claimed = strongboxes.setdefault("claimed", [])
+
+claimed.append(0)
+
+with open(f'{base_path}\\config.json', 'w') as f:
+    dump(inventory, f, indent=4)
+    
         print_menu(menu_type=0)
         print(
             f'{Fore.RED}[WARNING]{Fore.RESET} Using letters or going higher/lower will crash your game.')
@@ -194,3 +205,4 @@ def set_guild(guild: str):
     data['CurrentFactionWarFaction'] = guild
     export_save(data=data)
     return 0
+
